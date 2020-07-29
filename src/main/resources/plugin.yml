@@ -1,12 +1,10 @@
-name: MinecraftNOC
+name: mc2nms
 version: ${project.version}
-main: com.opennms.minecraftnoc.MinecraftNOC
-api-version: 1.15
-authors: [XeroCrossing]
-description: In-game OpenNMS NOC screens
+main: org.opennms.mc2nms.MinecraftPlugin
+api-version: "1.15"
+authors: [x_intercept]
+description: Generate OpenNMS events from player activity
 
 commands:
-  getpng:
-    description: Fetch a PNG from the specified URL
-  getmetric:
-    description: Fetch a metric text from the specified URL
+  getfoo:
+    description: Get foo
