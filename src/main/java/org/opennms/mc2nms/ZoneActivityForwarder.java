@@ -115,19 +115,19 @@ public class ZoneActivityForwarder implements ZoneListener {
                 .addHeader("Authorization", Credentials.basic(server.getUsername(), server.getPassword()))
                 .post(body)
                 .build();
-        plugin.getLogger().fine(String.format("Asynchronously sending event with UEI=%s to server %s.", event.getUei(), server));
+        plugin.getLogger().fine(String.format("Asynchronously sending event with UEI=%s to server %s.", event.getUei(), url));
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                plugin.getLogger().warning(String.format("Failed to send event to server: %s: %s", server, e));
+                plugin.getLogger().warning(String.format("Failed to send event with UEI=%s to server: %s: %s", event.getUei(), url, e));
             }
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) {
                 if (response.isSuccessful()) {
-                    plugin.getLogger().fine(String.format("Successfully sent event to server %s.", server));
+                    plugin.getLogger().fine(String.format("Successfully sent event with UEI=%s to server %s.", event.getUei(), url));
                 } else {
-                    plugin.getLogger().warning(String.format("Failed to send event to server %s with response code: %d", server, response.code()));
+                    plugin.getLogger().warning(String.format("Failed to send event with UEI=%s to server %s with response code: %d", event.getUei(), url, response.code()));
                 }
                 response.close();
             }
