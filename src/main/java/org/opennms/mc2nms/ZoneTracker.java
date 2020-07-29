@@ -29,13 +29,19 @@
 package org.opennms.mc2nms;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -43,32 +49,73 @@ public class ZoneTracker implements Listener {
 
     private final List<Zone> zones;
     private final List<ZoneListener> listeners = new LinkedList<>();
+    private final Map<Zone, Set<String>> playersByZone = new HashMap<>();
 
     public ZoneTracker(List<Zone> zones) {
         this.zones = Objects.requireNonNull(zones);
     }
 
     public void trackCurrentLocations(Collection<? extends Player> players) {
+        for (Player p : players) {
+            for (Zone z : zones) {
+                if (z.isInZone(p.getLocation())) {
+                    addPlayerToZone(p, z);
+                }
+            }
+        }
     }
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
-        // Player entered zone X
-        // Player exited zone X
-        Player p = e.getPlayer();
-        p.sendMessage(ChatHelper.format("Cleared current item and block"));
-        e.getPlayer().getPlayerListName();
+        Location location = e.getTo();
+        for (Zone z : zones) {
+            if (z.isInZone(location)) {
+                addPlayerToZone(e.getPlayer(), z);
+            } else {
+                removePlayerFromZone(e.getPlayer(), z);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent e) {
+        Location location = e.getPlayer().getLocation();
+        for (Zone z : zones) {
+            if (z.isInZone(location)) {
+                addPlayerToZone(e.getPlayer(), z);
+            }
+        }
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
-        // Player has left
-        e.getPlayer().getPlayerListName();
+        for (Zone z : zones) {
+            removePlayerFromZone(e.getPlayer(), z);
+        }
     }
 
-    public void addListener(ZoneListener listener) {
+    private synchronized void addPlayerToZone(Player player, Zone zone) {
+        Set<String> playersInZone = playersByZone.computeIfAbsent(zone, (z) -> new HashSet<>());
+        boolean didAdd = playersInZone.add(player.getPlayerListName());
+        if (didAdd) {
+            for (ZoneListener listener : listeners) {
+                listener.onPlayerEnteredZone(zone, player);
+            }
+        }
+    }
+
+    private synchronized void removePlayerFromZone(Player player, Zone zone) {
+        Set<String> playersInZone = playersByZone.computeIfAbsent(zone, (z) -> new HashSet<>());
+        boolean didRemove = playersInZone.remove(player.getPlayerListName());
+        if (didRemove) {
+            for (ZoneListener listener : listeners) {
+                listener.onPlayerLeftZone(zone, player);
+            }
+        }
+    }
+
+    public synchronized void addListener(ZoneListener listener) {
         listeners.add(listener);
     }
-
 
 }

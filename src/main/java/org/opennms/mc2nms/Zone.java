@@ -34,25 +34,40 @@ import org.bukkit.Location;
 
 public class Zone {
     private final String name;
-    private final Location a;
-    private final Location z;
+    private final Location center;
+    private final double radius;
+    private final double height;
 
-    public Zone(String name, Location a, Location z) {
+    public Zone(String name, Location center, double radius, double height) {
         this.name = Objects.requireNonNull(name);
-        this.a = Objects.requireNonNull(a);
-        this.z = Objects.requireNonNull(z);
+        this.center = Objects.requireNonNull(center);
+        this.radius = radius;
+        this.height = height;
     }
 
     public String getName() {
         return name;
     }
 
-    public Location getA() {
-        return a;
+    public Location getCenter() {
+        return center;
     }
 
-    public Location getZ() {
-        return z;
+    public double getRadius() {
+        return radius;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public boolean isInZone(Location location) {
+        // y-test
+        if (location.getY() < center.getY() || location.getY() > (center.getY() + height)) {
+            return false;
+        }
+        // x-z test - compare euclidean distance of location & midpoint of circle to radius
+        return (float)Math.sqrt((int)Math.pow(location.getX()-center.getX(),2)+(int)Math.pow(location.getZ()-center.getZ(),2)) <= radius;
     }
 
     @Override
@@ -60,22 +75,24 @@ public class Zone {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Zone zone = (Zone) o;
-        return Objects.equals(name, zone.name) &&
-                Objects.equals(a, zone.a) &&
-                Objects.equals(z, zone.z);
+        return Double.compare(zone.radius, radius) == 0 &&
+                Double.compare(zone.height, height) == 0 &&
+                Objects.equals(name, zone.name) &&
+                Objects.equals(center, zone.center);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, a, z);
+        return Objects.hash(name, center, radius, height);
     }
 
     @Override
     public String toString() {
         return "Zone{" +
                 "name='" + name + '\'' +
-                ", a=" + a +
-                ", z=" + z +
+                ", center=" + center +
+                ", radius=" + radius +
+                ", height=" + height +
                 '}';
     }
 }

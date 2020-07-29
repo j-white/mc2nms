@@ -34,7 +34,6 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -105,19 +104,14 @@ public class MinecraftPlugin extends JavaPlugin {
         }
         for (String zoneName : zonesSection.getKeys(false)) {
             String worldName = zonesSection.getString(zoneName + ".world");
-            World world = Bukkit.getWorld(worldName);
-            Location a = getLocation(zonesSection, world, zoneName + ".a");
-            Location z = getLocation(zonesSection, world, zoneName + ".z");
-            zones.add(new Zone(zoneName, a, z));
+            double x = zonesSection.getDouble(zoneName + ".x");
+            double y = zonesSection.getDouble(zoneName + ".y");
+            double z = zonesSection.getDouble(zoneName + ".z");
+            double radius = zonesSection.getDouble(zoneName + ".radius");
+            double height = zonesSection.getDouble(zoneName + ".height");
+            zones.add(new Zone(zoneName, new Location(Bukkit.getWorld(worldName), x, y, z), radius, height));
         }
         return zones;
-    }
-
-    private static Location getLocation(ConfigurationSection section, World world, String prefix) {
-        double x = section.getDouble(prefix + ".x");
-        double y = section.getDouble(prefix + ".y");
-        double z = section.getDouble(prefix + ".z");
-        return new Location(world, x, y, z);
     }
 
     public List<Zone> getZones() {
