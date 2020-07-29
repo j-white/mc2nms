@@ -8,3 +8,5 @@ description: Generate OpenNMS events from player activity
 commands:
   getzones:
     description: Return the list of tracked zones
+  gotozone:
+    description: Teleport to the given zone

@@ -40,6 +40,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.opennms.mc2nms.cmds.CommandGetZones;
+import org.opennms.mc2nms.cmds.CommandGotoZone;
 
 import com.google.common.collect.ImmutableList;
 
@@ -62,6 +63,7 @@ public class MinecraftPlugin extends JavaPlugin {
 
         // Register our commands
         getCommand("getzones").setExecutor(new CommandGetZones(this));
+        getCommand("gotozone").setExecutor(new CommandGotoZone(this));
 
         // Setup zone tracking
         ZoneActivityForwarder zoneActivityForwarder = new ZoneActivityForwarder(this, servers);
