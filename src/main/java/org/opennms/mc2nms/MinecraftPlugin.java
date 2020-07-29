@@ -50,7 +50,7 @@ public class MinecraftPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Configuration hanlding
+        // Configuration handling
         getConfig().options().copyDefaults();
         saveDefaultConfig();
 

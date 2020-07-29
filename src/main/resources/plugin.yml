@@ -6,5 +6,5 @@ authors: [x_intercept]
 description: Generate OpenNMS events from player activity
 
 commands:
-  getfoo:
-    description: Get foo
+  getzones:
+    description: Return the list of tracked zones
