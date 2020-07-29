@@ -28,33 +28,5 @@
 
 package org.opennms.mc2nms;
 
-import java.util.Objects;
-
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-
-public class LocationListener implements Listener {
-    private final MinecraftPlugin plugin;
-
-    public LocationListener(MinecraftPlugin plugin) {
-        this.plugin = Objects.requireNonNull(plugin);
-    }
-
-    @EventHandler
-    public void onPlayerMove(PlayerMoveEvent e) {
-        // Player entered zone X
-        // Player exited zone X
-        Player p = e.getPlayer();
-        p.sendMessage(ChatHelper.format("Cleared current item and block"));
-        e.getPlayer().getPlayerListName();
-    }
-
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent e) {
-       // Player has left
-        e.getPlayer().getPlayerListName();
-    }
+public class PluginState {
 }

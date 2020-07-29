@@ -1,6 +1,26 @@
 opennms:
-  baseurl: http://localhost:8980/opennms
-  username: admin
-  password: admin
-signs:
-maps:
+  local:
+    baseurl: http://localhost:8980/opennms
+    username: admin
+    password: admin
+zones:
+  mousebar:
+    world: "world"
+    a:
+      x: 0
+      y: 0
+      z: 0
+    z:
+      x: 0
+      y: 0
+      z: 0
+  test:
+    world: "world"
+    a:
+      x: 156.98
+      y: 63.000
+      z: -114.068
+    z:
+      x: 152.413
+      y: 67.000
+      z: 116.652

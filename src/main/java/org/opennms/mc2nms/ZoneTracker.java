@@ -26,42 +26,49 @@
  *     http://www.opennms.com/
  *******************************************************************************/
 
-package org.opennms.mc2nms.cmds;
+package org.opennms.mc2nms;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
-import org.bukkit.command.BlockCommandSender;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.opennms.mc2nms.MinecraftPlugin;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
-import org.opennms.mc2nms.ChatHelper;
+public class ZoneTracker implements Listener {
 
-public class CommandGetFoo implements CommandExecutor {
-    private final MinecraftPlugin plugin;
+    private final List<Zone> zones;
+    private final List<ZoneListener> listeners = new LinkedList<>();
 
-    public CommandGetFoo(MinecraftPlugin plugin) {
-        this.plugin = Objects.requireNonNull(plugin);
+    public ZoneTracker(List<Zone> zones) {
+        this.zones = Objects.requireNonNull(zones);
     }
 
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
-            p.sendMessage(ChatHelper.format("Foo your player."));
-            return true;
-        } else {
-            // Sender is console
-            if (sender instanceof ConsoleCommandSender) {
-                sender.sendMessage("Foo your console.");
-            } else if (sender instanceof BlockCommandSender) {
-                sender.sendMessage("Foo your block.");
-            }
-        }
-        return false;
+    public void trackCurrentLocations(Collection<? extends Player> players) {
     }
+
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent e) {
+        // Player entered zone X
+        // Player exited zone X
+        Player p = e.getPlayer();
+        p.sendMessage(ChatHelper.format("Cleared current item and block"));
+        e.getPlayer().getPlayerListName();
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent e) {
+        // Player has left
+        e.getPlayer().getPlayerListName();
+    }
+
+    public void addListener(ZoneListener listener) {
+        listeners.add(listener);
+    }
+
+
 }

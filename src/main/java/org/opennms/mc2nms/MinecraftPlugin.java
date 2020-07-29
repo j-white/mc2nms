@@ -28,25 +28,100 @@
 
 package org.opennms.mc2nms;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.opennms.mc2nms.cmds.CommandGetFoo;
+import org.opennms.mc2nms.cmds.CommandGetZones;
+
+import com.google.common.collect.ImmutableList;
 
 public class MinecraftPlugin extends JavaPlugin {
 
+    private List<Zone> zones = new LinkedList<>();
+    private List<OpenNMSServer> servers = new LinkedList<>();
+
     @Override
     public void onEnable() {
+        // Configuration hanlding
         getConfig().options().copyDefaults();
         saveDefaultConfig();
 
-
         FileConfiguration config = getConfig();
-        config.get("opennms.baseurl");
+        servers = getServersFromConfig(config);
+        getLogger().info(String.format("Loaded %d OpenNMS servers from the config.", servers.size()));
+        zones = getZonesFromConfig(config);
+        getLogger().info(String.format("Loaded %d zones from the config.", zones.size()));
 
+        // Register our commands
+        getCommand("getzones").setExecutor(new CommandGetZones(this));
+
+        // Setup zone tracking
+        ZoneActivityForwarder zoneActivityForwarder = new ZoneActivityForwarder(this, servers);
+        ZoneTracker zoneTracker = new ZoneTracker(zones);
+        zoneTracker.addListener(zoneActivityForwarder);
+
+        // Seed tracking w/ current player locations
+        zoneTracker.trackCurrentLocations(Bukkit.getServer().getOnlinePlayers());
+
+        // Listen for move events
         PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(new LocationListener(this), this);
-        getCommand("getfoo").setExecutor(new CommandGetFoo(this));
+        pm.registerEvents(zoneTracker, this);
     }
+
+    @Override
+    public void onDisable() {
+        getLogger().info("onDisable has been invoked!");
+    }
+
+    public static List<OpenNMSServer> getServersFromConfig(Configuration config) {
+        final List<OpenNMSServer> servers = new ArrayList<>();
+        final ConfigurationSection opennmsSection = config.getConfigurationSection("opennms");
+        if (opennmsSection == null) {
+            return servers;
+        }
+        for (String serverName : opennmsSection.getKeys(false)) {
+            String baseUrl = opennmsSection.getString(serverName + ".baseurl");
+            String username = opennmsSection.getString(serverName + ".username");
+            String password = opennmsSection.getString(serverName + ".password");
+            servers.add(new OpenNMSServer(serverName, baseUrl, username, password));
+        }
+        return servers;
+    }
+
+    public static List<Zone> getZonesFromConfig(Configuration config) {
+        final List<Zone> zones = new ArrayList<>();
+        final ConfigurationSection zonesSection = config.getConfigurationSection("zones");
+        if (zonesSection == null) {
+            return zones;
+        }
+        for (String zoneName : zonesSection.getKeys(false)) {
+            String worldName = zonesSection.getString(zoneName + ".world");
+            World world = Bukkit.getWorld(worldName);
+            Location a = getLocation(zonesSection, world, zoneName + ".a");
+            Location z = getLocation(zonesSection, world, zoneName + ".z");
+            zones.add(new Zone(zoneName, a, z));
+        }
+        return zones;
+    }
+
+    private static Location getLocation(ConfigurationSection section, World world, String prefix) {
+        double x = section.getDouble(prefix + ".x");
+        double y = section.getDouble(prefix + ".y");
+        double z = section.getDouble(prefix + ".z");
+        return new Location(world, x, y, z);
+    }
+
+    public List<Zone> getZones() {
+        return ImmutableList.copyOf(zones);
+    }
+
 }
