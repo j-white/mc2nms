@@ -33,6 +33,7 @@ import java.security.cert.CertificateException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLContext;
@@ -105,9 +106,10 @@ public class ZoneActivityForwarder implements ZoneListener {
         }
     }
 
-    public void sendEvent(OpenNMSServer server, Event event) {
+    public CompletableFuture<Void> sendEvent(OpenNMSServer server, Event event) {
         final HttpUrl url = HttpUrl.parse(server.getBaseUrl()).newBuilder()
-                .addPathSegment("/rest/events")
+                .addPathSegment("rest")
+                .addPathSegment("events")
                 .build();
         RequestBody body = RequestBody.create(gson.toJson(event), JSON);
         final Request request = new Request.Builder()
@@ -116,22 +118,28 @@ public class ZoneActivityForwarder implements ZoneListener {
                 .post(body)
                 .build();
         plugin.getLogger().fine(String.format("Asynchronously sending event with UEI=%s to server %s.", event.getUei(), url));
+        CompletableFuture<Void> future = new CompletableFuture<>();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 plugin.getLogger().warning(String.format("Failed to send event with UEI=%s to server: %s: %s", event.getUei(), url, e));
+                future.completeExceptionally(e);
             }
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) {
                 if (response.isSuccessful()) {
                     plugin.getLogger().fine(String.format("Successfully sent event with UEI=%s to server %s.", event.getUei(), url));
+                    future.complete(null);
                 } else {
-                    plugin.getLogger().warning(String.format("Failed to send event with UEI=%s to server %s with response code: %d", event.getUei(), url, response.code()));
+                    String msg = String.format("Failed to send event with UEI=%s to server %s with response code: %d", event.getUei(), url, response.code());
+                    future.completeExceptionally(new Exception(msg));
+                    plugin.getLogger().warning(msg);
                 }
                 response.close();
             }
         });
+        return future;
     }
 
     private static OkHttpClient.Builder configureToIgnoreCertificate(OkHttpClient.Builder builder) {
