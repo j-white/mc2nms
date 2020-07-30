@@ -91,9 +91,13 @@ public class ZoneActivityForwarder implements ZoneListener {
     }
 
     public void sendEventsAsync(String uei, Zone zone, Player player) {
+        sendEventsAsync(uei, zone, player.getDisplayName());
+    }
+
+    public void sendEventsAsync(String uei, Zone zone, String playerDisplayName) {
         final Map<String,String> parms = ImmutableMap.<String,String>builder()
                 .put("zone", zone.getName())
-                .put("player", player.getDisplayName())
+                .put("player", playerDisplayName)
                 .build();
 
         final Event event = new Event();

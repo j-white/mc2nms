@@ -40,7 +40,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Nullable;
 import org.opennms.mc2nms.cmds.CommandGetZones;
+import org.opennms.mc2nms.cmds.CommandGhostZone;
 import org.opennms.mc2nms.cmds.CommandGotoZone;
 
 import com.google.common.collect.ImmutableList;
@@ -49,6 +51,7 @@ public class MinecraftPlugin extends JavaPlugin implements ZoneListener {
 
     private List<Zone> zones = new LinkedList<>();
     private List<OpenNMSServer> servers = new LinkedList<>();
+    private ZoneActivityForwarder zoneActivityForwarder;
 
     @Override
     public void onEnable() {
@@ -65,9 +68,10 @@ public class MinecraftPlugin extends JavaPlugin implements ZoneListener {
         // Register our commands
         getCommand("getzones").setExecutor(new CommandGetZones(this));
         getCommand("gotozone").setExecutor(new CommandGotoZone(this));
+        getCommand("ghostzone").setExecutor(new CommandGhostZone(this));
 
         // Setup zone tracking
-        ZoneActivityForwarder zoneActivityForwarder = new ZoneActivityForwarder(this, servers);
+        zoneActivityForwarder = new ZoneActivityForwarder(this, servers);
         ZoneTracker zoneTracker = new ZoneTracker(zones);
         zoneTracker.addListener(zoneActivityForwarder);
         zoneTracker.addListener(this);
@@ -132,4 +136,7 @@ public class MinecraftPlugin extends JavaPlugin implements ZoneListener {
         return ImmutableList.copyOf(zones);
     }
 
+    public @Nullable ZoneActivityForwarder getZoneActivityForwarder() {
+        return zoneActivityForwarder;
+    }
 }

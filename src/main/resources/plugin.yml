@@ -3,10 +3,12 @@ version: ${project.version}
 main: org.opennms.mc2nms.MinecraftPlugin
 api-version: "1.15"
 authors: [x_intercept]
-description: Generate OpenNMS events from player activity
+description: Generate OpenNMS events when users enter or leave
 
 commands:
   getzones:
     description: Return the list of tracked zones
   gotozone:
     description: Teleport to the given zone
+  ghostzone:
+    description: Add/remove fake players from zones in order simulate event generation
