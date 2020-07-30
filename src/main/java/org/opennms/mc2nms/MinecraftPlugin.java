@@ -37,6 +37,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.opennms.mc2nms.cmds.CommandGetZones;
@@ -44,7 +45,7 @@ import org.opennms.mc2nms.cmds.CommandGotoZone;
 
 import com.google.common.collect.ImmutableList;
 
-public class MinecraftPlugin extends JavaPlugin {
+public class MinecraftPlugin extends JavaPlugin implements ZoneListener {
 
     private List<Zone> zones = new LinkedList<>();
     private List<OpenNMSServer> servers = new LinkedList<>();
@@ -69,6 +70,7 @@ public class MinecraftPlugin extends JavaPlugin {
         ZoneActivityForwarder zoneActivityForwarder = new ZoneActivityForwarder(this, servers);
         ZoneTracker zoneTracker = new ZoneTracker(zones);
         zoneTracker.addListener(zoneActivityForwarder);
+        zoneTracker.addListener(this);
 
         // Seed tracking w/ current player locations
         zoneTracker.trackCurrentLocations(Bukkit.getServer().getOnlinePlayers());
@@ -76,6 +78,16 @@ public class MinecraftPlugin extends JavaPlugin {
         // Listen for move events
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(zoneTracker, this);
+    }
+
+    @Override
+    public void onPlayerEnteredZone(Zone zone, Player player) {
+        player.sendMessage(ChatHelper.format(String.format("You have entered the %s zone.", zone.getName())));
+    }
+
+    @Override
+    public void onPlayerLeftZone(Zone zone, Player player) {
+        player.sendMessage(ChatHelper.format(String.format("You have left the %s zone.", zone.getName())));
     }
 
     @Override

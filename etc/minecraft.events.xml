@@ -1,0 +1,36 @@
+<events xmlns="http://xmlns.opennms.org/xsd/eventconf">
+    <event>
+        <uei>uei.opennms.org/devjam/2020/minecraft/playerEnteredZone</uei>
+        <event-label>Minecraft: A player entered a known zone</event-label>
+        <descr>%parm[player]% has entered %parm[zone]%.</descr>
+        <logmsg dest="logndisplay">%parm[player]% has entered %parm[zone]%.</logmsg>
+        <severity>Normal</severity>
+        <alarm-data reduction-key="%uei%:%parm[zone]%:%parm[player]%" alarm-type="1"/>
+    </event>
+    <event>
+        <uei>uei.opennms.org/devjam/2020/minecraft/playerLeftZone</uei>
+        <event-label>Minecraft: A player left a known zone</event-label>
+        <descr>%parm[player]% has left %parm[zone]%.</descr>
+        <logmsg dest="logndisplay">%parm[player]% has left %parm[zone]%.</logmsg>
+        <severity>Cleared</severity>
+        <alarm-data reduction-key="%uei%:%parm[zone]%:%parm[player]%" alarm-type="2"
+                    clear-key="uei.opennms.org/devjam/2020/minecraft/playerEnteredZone:%parm[zone]%:%parm[player]%"/>
+    </event>
+    <event>
+        <uei>uei.opennms.org/devjam/2020/minecraft/zoneOverCapacity</uei>
+        <event-label>Minecraft: A zone is over capacity</event-label>
+        <descr>%parm[zone]% is over capacity</descr>
+        <logmsg dest="logndisplay">%parm[zone]% is over capacity</logmsg>
+        <severity>Minor</severity>
+        <alarm-data reduction-key="%uei%:%parm[zone]%" alarm-type="1"/>
+    </event>
+    <event>
+        <uei>uei.opennms.org/devjam/2020/minecraft/zoneUnderCapacity</uei>
+        <event-label>Minecraft: A zone is under capacity</event-label>
+        <descr>%parm[zone]% is under capacity</descr>
+        <logmsg dest="logndisplay">%parm[zone]% is under capacity</logmsg>
+        <severity>Cleared</severity>
+        <alarm-data reduction-key="%uei%:%parm[zone]%" alarm-type="2"
+                    clear-key="uei.opennms.org/devjam/2020/minecraft/zoneOverCapacity:%parm[zone]%"/>
+    </event>
+</events>
