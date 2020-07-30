@@ -1,0 +1,721 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [],
+  "panels": [
+    {
+      "columns": [
+        {
+          "hidden": false,
+          "sort": false,
+          "style": {
+            "alias": "Ack",
+            "align": "center",
+            "clip": true,
+            "pattern": "Is Acknowledged",
+            "type": "checkbox",
+            "width": "2em"
+          },
+          "text": "Is Acknowledged",
+          "title": "Ack"
+        },
+        {
+          "hidden": false,
+          "sort": false,
+          "style": {
+            "align": "center",
+            "clip": true,
+            "displayAs": "icon",
+            "pattern": "Severity",
+            "type": "severity",
+            "width": "3em"
+          },
+          "text": "Severity",
+          "title": "Severity"
+        },
+        {
+          "hidden": false,
+          "sort": false,
+          "style": {
+            "align": "right",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "decimals": 0,
+            "pattern": "/Count/",
+            "type": "number",
+            "unit": "short",
+            "width": "3em"
+          },
+          "text": "Count",
+          "title": "Count"
+        },
+        {
+          "desc": true,
+          "hidden": false,
+          "sort": true,
+          "style": {
+            "alias": "Last Occurrence",
+            "align": "center",
+            "clip": true,
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "pattern": "/Last Event Time/",
+            "type": "date",
+            "width": "5em"
+          },
+          "text": "Last Event Time",
+          "title": "Last Occurrence"
+        },
+        {
+          "hidden": false,
+          "resource": "lastEvent.zone",
+          "sort": false,
+          "style": {
+            "alias": "Zone",
+            "align": "auto",
+            "clip": false,
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "Param_zone",
+            "thresholds": [],
+            "type": "string",
+            "unit": "short",
+            "width": "2em"
+          },
+          "text": "Param_zone",
+          "title": "Zone"
+        },
+        {
+          "hidden": false,
+          "resource": "lastEvent.players",
+          "sort": false,
+          "style": {
+            "alias": "# Players",
+            "align": "auto",
+            "clip": false,
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "Param_players",
+            "thresholds": [],
+            "type": "string",
+            "unit": "short",
+            "width": "2em"
+          },
+          "text": "Param_players",
+          "title": "# Players"
+        },
+        {
+          "hidden": false,
+          "sort": false,
+          "style": {
+            "alias": "Message",
+            "align": "left",
+            "clip": true,
+            "pattern": "Log Message",
+            "sanitize": true,
+            "type": "string",
+            "width": "30em"
+          },
+          "text": "Log Message",
+          "title": "Message"
+        }
+      ],
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 3,
+      "options": {},
+      "pageSize": 10,
+      "pagingPausesRefresh": false,
+      "scroll": false,
+      "severity": "column",
+      "showHeader": true,
+      "sort": {
+        "col": 3,
+        "desc": true
+      },
+      "styles": [
+        {
+          "align": "center",
+          "clip": true,
+          "displayAs": "icon",
+          "pattern": "Severity",
+          "type": "severity",
+          "width": "3em"
+        },
+        {
+          "alias": "Last Occurrence",
+          "align": "center",
+          "clip": true,
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "/Last Event Time/",
+          "type": "date",
+          "width": "5em"
+        },
+        {
+          "align": "center",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "/(.*Time|Suppressed Until)/",
+          "type": "date",
+          "width": "6em"
+        },
+        {
+          "pattern": "/.*ID/",
+          "type": "string"
+        },
+        {
+          "pattern": "Description",
+          "sanitize": true,
+          "type": "string"
+        },
+        {
+          "alias": "Message",
+          "align": "left",
+          "clip": true,
+          "pattern": "Log Message",
+          "sanitize": true,
+          "type": "string",
+          "width": "30em"
+        },
+        {
+          "align": "right",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 0,
+          "pattern": "/Count/",
+          "type": "number",
+          "unit": "short",
+          "width": "3em"
+        },
+        {
+          "alias": "Node",
+          "align": "left",
+          "pattern": "Node Label",
+          "type": "string",
+          "width": "12em"
+        },
+        {
+          "alias": "Ack",
+          "align": "center",
+          "clip": true,
+          "pattern": "Is Acknowledged",
+          "type": "checkbox",
+          "width": "2em"
+        },
+        {
+          "align": "left",
+          "clip": true,
+          "pattern": "Location",
+          "type": "string",
+          "width": "5em"
+        },
+        {
+          "alias": "# Players",
+          "align": "auto",
+          "clip": false,
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Param_players",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short",
+          "width": "2em"
+        },
+        {
+          "alias": "Zone",
+          "align": "auto",
+          "clip": false,
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Param_zone",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short",
+          "width": "2em"
+        },
+        {
+          "align": "left",
+          "pattern": "/.*/",
+          "type": "string"
+        }
+      ],
+      "targets": [
+        {
+          "entityType": {
+            "id": "alarm",
+            "label": "Alarms",
+            "queryFunction": "alarms"
+          },
+          "filter": {
+            "clauses": [
+              {
+                "restriction": {
+                  "attribute": "uei",
+                  "comparator": {
+                    "id": 1,
+                    "label": "EQ"
+                  },
+                  "value": "uei.opennms.org/devjam/2020/minecraft/zoneOverCapacity"
+                },
+                "operator": {
+                  "id": 1,
+                  "label": "AND"
+                }
+              },
+              {
+                "restriction": {
+                  "attribute": "severity",
+                  "comparator": {
+                    "id": 7,
+                    "label": "GE"
+                  },
+                  "value": "NORMAL"
+                },
+                "operator": {
+                  "id": 1,
+                  "label": "AND"
+                }
+              }
+            ],
+            "limit": 0,
+            "orderBy": []
+          },
+          "limit": 0,
+          "orderBy": [],
+          "refId": "A"
+        }
+      ],
+      "theme": "helm",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Zones over capacity",
+      "transform": "table",
+      "type": "opennms-helm-alarm-table-panel"
+    },
+    {
+      "columns": [
+        {
+          "hidden": false,
+          "sort": false,
+          "style": {
+            "alias": "Ack",
+            "align": "center",
+            "clip": true,
+            "pattern": "Is Acknowledged",
+            "type": "checkbox",
+            "width": "2em"
+          },
+          "text": "Is Acknowledged",
+          "title": "Ack"
+        },
+        {
+          "hidden": false,
+          "sort": false,
+          "style": {
+            "align": "center",
+            "clip": true,
+            "displayAs": "icon",
+            "pattern": "Severity",
+            "type": "severity",
+            "width": "3em"
+          },
+          "text": "Severity",
+          "title": "Severity"
+        },
+        {
+          "hidden": false,
+          "sort": false,
+          "style": {
+            "align": "right",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "decimals": 0,
+            "pattern": "/Count/",
+            "type": "number",
+            "unit": "short",
+            "width": "3em"
+          },
+          "text": "Count",
+          "title": "Count"
+        },
+        {
+          "desc": true,
+          "hidden": false,
+          "sort": true,
+          "style": {
+            "alias": "Last Occurrence",
+            "align": "center",
+            "clip": true,
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "pattern": "/Last Event Time/",
+            "type": "date",
+            "width": "5em"
+          },
+          "text": "Last Event Time",
+          "title": "Last Occurrence"
+        },
+        {
+          "hidden": false,
+          "resource": "lastEvent.zone",
+          "sort": false,
+          "style": {
+            "alias": "Zone",
+            "align": "auto",
+            "clip": false,
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "Param_zone",
+            "thresholds": [],
+            "type": "string",
+            "unit": "short",
+            "width": "2em"
+          },
+          "text": "Param_zone",
+          "title": "Zone"
+        },
+        {
+          "hidden": false,
+          "resource": "lastEvent.player",
+          "sort": false,
+          "style": {
+            "alias": "Player",
+            "align": "auto",
+            "clip": false,
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "Param_player",
+            "thresholds": [],
+            "type": "string",
+            "unit": "short",
+            "width": "2em"
+          },
+          "text": "Param_player",
+          "title": "Player"
+        },
+        {
+          "hidden": false,
+          "sort": false,
+          "style": {
+            "alias": "Message",
+            "align": "left",
+            "clip": true,
+            "pattern": "Log Message",
+            "sanitize": true,
+            "type": "string",
+            "width": "30em"
+          },
+          "text": "Log Message",
+          "title": "Message"
+        }
+      ],
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 2,
+      "options": {},
+      "pageSize": 10,
+      "pagingPausesRefresh": false,
+      "scroll": false,
+      "severity": "column",
+      "showHeader": true,
+      "sort": {
+        "col": 3,
+        "desc": true
+      },
+      "styles": [
+        {
+          "align": "center",
+          "clip": true,
+          "displayAs": "icon",
+          "pattern": "Severity",
+          "type": "severity",
+          "width": "3em"
+        },
+        {
+          "alias": "Last Occurrence",
+          "align": "center",
+          "clip": true,
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "/Last Event Time/",
+          "type": "date",
+          "width": "5em"
+        },
+        {
+          "align": "center",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "/(.*Time|Suppressed Until)/",
+          "type": "date",
+          "width": "6em"
+        },
+        {
+          "pattern": "/.*ID/",
+          "type": "string"
+        },
+        {
+          "pattern": "Description",
+          "sanitize": true,
+          "type": "string"
+        },
+        {
+          "alias": "Message",
+          "align": "left",
+          "clip": true,
+          "pattern": "Log Message",
+          "sanitize": true,
+          "type": "string",
+          "width": "30em"
+        },
+        {
+          "align": "right",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 0,
+          "pattern": "/Count/",
+          "type": "number",
+          "unit": "short",
+          "width": "3em"
+        },
+        {
+          "alias": "Node",
+          "align": "left",
+          "pattern": "Node Label",
+          "type": "string",
+          "width": "12em"
+        },
+        {
+          "alias": "Ack",
+          "align": "center",
+          "clip": true,
+          "pattern": "Is Acknowledged",
+          "type": "checkbox",
+          "width": "2em"
+        },
+        {
+          "align": "left",
+          "clip": true,
+          "pattern": "Location",
+          "type": "string",
+          "width": "5em"
+        },
+        {
+          "alias": "Zone",
+          "align": "auto",
+          "clip": false,
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Param_zone",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short",
+          "width": "2em"
+        },
+        {
+          "alias": "Player",
+          "align": "auto",
+          "clip": false,
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Param_player",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short",
+          "width": "2em"
+        },
+        {
+          "align": "left",
+          "pattern": "/.*/",
+          "type": "string"
+        }
+      ],
+      "targets": [
+        {
+          "entityType": {
+            "id": "alarm",
+            "label": "Alarms",
+            "queryFunction": "alarms"
+          },
+          "filter": {
+            "clauses": [
+              {
+                "restriction": {
+                  "attribute": "uei",
+                  "comparator": {
+                    "id": 1,
+                    "label": "EQ"
+                  },
+                  "value": "uei.opennms.org/devjam/2020/minecraft/playerEnteredZone"
+                },
+                "operator": {
+                  "id": 1,
+                  "label": "AND"
+                }
+              },
+              {
+                "restriction": {
+                  "attribute": "alarmType",
+                  "comparator": {
+                    "id": 1,
+                    "label": "EQ"
+                  },
+                  "value": "1"
+                },
+                "operator": {
+                  "id": 1,
+                  "label": "AND"
+                }
+              },
+              {
+                "restriction": {
+                  "attribute": "severity",
+                  "comparator": {
+                    "id": 7,
+                    "label": "GE"
+                  },
+                  "value": "NORMAL"
+                },
+                "operator": {
+                  "id": 1,
+                  "label": "AND"
+                }
+              }
+            ],
+            "limit": 0,
+            "orderBy": []
+          },
+          "limit": 0,
+          "orderBy": [],
+          "refId": "A"
+        }
+      ],
+      "theme": "helm",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Players in known zones",
+      "transform": "table",
+      "type": "opennms-helm-alarm-table-panel"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 19,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "DevJam2020",
+  "uid": "LXGYbJVGk",
+  "version": 6
+}
