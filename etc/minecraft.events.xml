@@ -4,7 +4,7 @@
         <event-label>Minecraft: A player entered a known zone</event-label>
         <descr>%parm[player]% has entered %parm[zone]%.</descr>
         <logmsg dest="logndisplay">%parm[player]% has entered %parm[zone]%.</logmsg>
-        <severity>Normal</severity>
+        <severity>Warning</severity>
         <alarm-data reduction-key="%uei%:%parm[zone]%:%parm[player]%" alarm-type="1">
             <!-- Grouped & tag by value of zone parm -->
             <managed-object type="zone"/>
