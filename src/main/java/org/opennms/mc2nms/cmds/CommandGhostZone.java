@@ -30,6 +30,7 @@ package org.opennms.mc2nms.cmds;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -61,7 +62,7 @@ public class CommandGhostZone implements CommandExecutor, TabCompleter {
             if (args.length == 2) {
                 // FIXME: Refactor w/ gotozone
                 Zone matchedZone = null;
-                String zoneName = args[0].toLowerCase().trim();
+                String zoneName = args[0].trim();
                 for (Zone zone : zones) {
                     if (zoneName.equalsIgnoreCase(zone.getName())) {
                         matchedZone = zone;
@@ -76,12 +77,16 @@ public class CommandGhostZone implements CommandExecutor, TabCompleter {
                 int k = Integer.parseInt(args[1]);
                 if (k > 0) {
                     for (int i = 0; i < k; i++) {
-                        plugin.getZoneActivityForwarder().sendEventsAsync(ZoneActivityForwarder.ENTERED_ZONE_UEI, matchedZone, "Ghost #" + i);
+                        plugin.getZoneActivityForwarder().sendEventsAsync(ZoneActivityForwarder.ENTERED_ZONE_UEI,
+                                matchedZone, "Ghost #" + (i + 1));
                     }
+                    p.sendMessage(ChatHelper.format(String.format("Spawned %d ghosts in zone %s", k, zoneName)));
                 } else if (k < 0) {
                     for (int i = k; i < 0; i++) {
-                        plugin.getZoneActivityForwarder().sendEventsAsync(ZoneActivityForwarder.LEFT_ZONE_UEI, matchedZone, "Ghost #" + i);
+                        plugin.getZoneActivityForwarder().sendEventsAsync(ZoneActivityForwarder.LEFT_ZONE_UEI,
+                                matchedZone, "Ghost #" + (i + 1));
                     }
+                    p.sendMessage(ChatHelper.format(String.format("Destroyed %d ghosts in zone %s", Math.abs(k), zoneName)));
                 }
 
             }
@@ -91,6 +96,13 @@ public class CommandGhostZone implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        // FIXME: Refactor w/ gotozone
+        if(command.getName().equalsIgnoreCase("ghostzone") && args.length == 1) { //if we are on the first arg
+            if(sender instanceof Player) { //and we are a player
+                //return these commands to auto complete with
+                return plugin.getZones().stream().map(Zone::getName).collect(Collectors.toList());
+            }
+        }
         return null;
     }
 }

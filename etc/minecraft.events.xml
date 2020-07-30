@@ -5,7 +5,10 @@
         <descr>%parm[player]% has entered %parm[zone]%.</descr>
         <logmsg dest="logndisplay">%parm[player]% has entered %parm[zone]%.</logmsg>
         <severity>Normal</severity>
-        <alarm-data reduction-key="%uei%:%parm[zone]%:%parm[player]%" alarm-type="1"/>
+        <alarm-data reduction-key="%uei%:%parm[zone]%:%parm[player]%" alarm-type="1">
+            <!-- Grouped & tag by value of zone parm -->
+            <managed-object type="zone"/>
+        </alarm-data>
     </event>
     <event>
         <uei>uei.opennms.org/devjam/2020/minecraft/playerLeftZone</uei>
@@ -14,8 +17,13 @@
         <logmsg dest="logndisplay">%parm[player]% has left %parm[zone]%.</logmsg>
         <severity>Cleared</severity>
         <alarm-data reduction-key="%uei%:%parm[zone]%:%parm[player]%" alarm-type="2"
-                    clear-key="uei.opennms.org/devjam/2020/minecraft/playerEnteredZone:%parm[zone]%:%parm[player]%"/>
+                    clear-key="uei.opennms.org/devjam/2020/minecraft/playerEnteredZone:%parm[zone]%:%parm[player]%">
+            <!-- Grouped & tag by value of zone parm -->
+            <managed-object type="zone"/>
+        </alarm-data>
     </event>
+
+
     <event>
         <uei>uei.opennms.org/devjam/2020/minecraft/zoneOverCapacity</uei>
         <event-label>Minecraft: A zone is over capacity</event-label>
