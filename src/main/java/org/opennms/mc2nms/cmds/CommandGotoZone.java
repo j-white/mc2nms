@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -60,7 +61,12 @@ public class CommandGotoZone implements CommandExecutor, TabCompleter {
                 for (Zone zone : zones) {
                     if (zoneName.equalsIgnoreCase(zone.getName())) {
                         p.sendMessage(ChatHelper.format(String.format("Teleporting to %s", zone.getName())));
-                        p.teleport(zone.getCenter());
+
+                        // Use the zone's center, but overwrite the world with the player's current world
+                        Location targetLocation = zone.getCenter().clone();
+                        targetLocation.setWorld(p.getWorld());
+
+                        p.teleport(targetLocation);
                         return true;
                     }
                 }
