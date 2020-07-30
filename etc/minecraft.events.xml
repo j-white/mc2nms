@@ -28,7 +28,7 @@
         <uei>uei.opennms.org/devjam/2020/minecraft/zoneOverCapacity</uei>
         <event-label>Minecraft: A zone is over capacity</event-label>
         <descr>%parm[zone]% is over capacity with %parm[players]% total players</descr>
-        <logmsg dest="logndisplay">%parm[zone]% is over capacitya with %parm[players]% total players</logmsg>
+        <logmsg dest="logndisplay">%parm[zone]% is over capacity with %parm[players]% total players</logmsg>
         <severity>Minor</severity>
         <alarm-data reduction-key="%uei%:%parm[zone]%" alarm-type="1"/>
     </event>
